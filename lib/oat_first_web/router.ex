@@ -18,6 +18,7 @@ defmodule OatFirstWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :home
+    live "/countries", Live.Countries, :new
   end
 
   # Other scopes may use custom stacks.
