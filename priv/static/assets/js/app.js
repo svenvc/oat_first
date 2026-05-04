@@ -17,3 +17,15 @@ document.querySelectorAll("[role=alert][data-flash]").forEach((el) => {
     el.setAttribute("hidden", "");
   });
 });
+
+// oat.ink theme toggle support
+function toggleTheme() {
+  var cs = document.documentElement.style.colorScheme;
+  var isDark =
+    cs === "dark" ||
+    (!cs && matchMedia("(prefers-color-scheme: dark)").matches);
+  var theme = isDark ? "light" : "dark";
+  document.documentElement.style.colorScheme = theme;
+  document.documentElement.setAttribute("data-theme", theme);
+  localStorage.setItem("theme", theme);
+}

@@ -1,5 +1,14 @@
 /* This file is for your main application CSS */
 
+/* minimal styling */
 body {
     margin: 1em
+}
+
+/* oat.ink theme toggle support */
+html[data-theme="dark"] .icon-dark {
+    display: none;
+}
+html:not([data-theme="dark"]) .icon-light {
+    display: none;
 }
