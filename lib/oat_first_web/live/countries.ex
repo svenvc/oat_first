@@ -6,26 +6,28 @@ defmodule OatFirstWeb.Live.Countries do
     ~H"""
     <Layouts.flash_group flash={@flash} />
 
-    <h1>Countries</h1>
+    <Layouts.oat_root>
+      <h1>Countries</h1>
 
-    <div class="table">
-      <table>
-        <thead>
-          <tr>
-            <th :for={col <- @columns}>{col}</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr :for={{_id, row} <- @streams.countries}>
-            <td :for={col <- @columns}>{row[col]}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+      <div class="table">
+        <table>
+          <thead>
+            <tr>
+              <th :for={col <- @columns}>{col}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr :for={{_id, row} <- @streams.countries}>
+              <td :for={col <- @columns}>{row[col]}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
-    <div class="align-right mt-6">
-      <.oat_theme_toggle />
-    </div>
+      <div class="align-right mt-6">
+        <.oat_theme_toggle />
+      </div>
+    </Layouts.oat_root>
     """
   end
 

@@ -1,67 +1,69 @@
 <Layouts.flash_group flash={@flash} />
 
-<div class="container">
-  <div class="row">
-    <div class="col-6 offset-3">
-      <h1>
-        Phoenix Framework
-        <small>
-          v{Application.spec(:phoenix, :vsn)}
-        </small>
-      </h1>
+<Layouts.oat_root>
+  <div class="container">
+    <div class="row">
+      <div class="col-6 offset-3">
+        <h1>
+          Phoenix Framework
+          <small>
+            v{Application.spec(:phoenix, :vsn)}
+          </small>
+        </h1>
 
-      <img src={~p"/images/logo.svg"} width="200px" />
+        <img src={~p"/images/logo.svg"} width="200px" />
 
-      <p>
-        Peace of mind from prototype to production.
-      </p>
-      <p>
-        Build rich, interactive web applications quickly, with less code and fewer moving parts.
-        Join our growing community of developers using Phoenix to craft APIs, HTML5 apps and more, for fun or at scale.
-      </p>
+        <p>
+          Peace of mind from prototype to production.
+        </p>
+        <p>
+          Build rich, interactive web applications quickly, with less code and fewer moving parts.
+          Join our growing community of developers using Phoenix to craft APIs, HTML5 apps and more, for fun or at scale.
+        </p>
 
-      <ul>
-        <li>
-          <a href="https://hexdocs.pm/phoenix/overview.html">
-            Guides &amp; Docs
-          </a>
-        </li>
-        <li>
-          <a href="https://github.com/phoenixframework/phoenix">
-            Source Code
-          </a>
-        </li>
-        <li>
-          <a href={"https://github.com/phoenixframework/phoenix/blob/v#{Application.spec(:phoenix, :vsn)}/CHANGELOG.md"}>
-            Changelog
-          </a>
-        </li>
-      </ul>
+        <ul>
+          <li>
+            <a href="https://hexdocs.pm/phoenix/overview.html">
+              Guides &amp; Docs
+            </a>
+          </li>
+          <li>
+            <a href="https://github.com/phoenixframework/phoenix">
+              Source Code
+            </a>
+          </li>
+          <li>
+            <a href={"https://github.com/phoenixframework/phoenix/blob/v#{Application.spec(:phoenix, :vsn)}/CHANGELOG.md"}>
+              Changelog
+            </a>
+          </li>
+        </ul>
 
-      <ul>
-        <li>
-          <a href="https://elixirforum.com">
-            Discuss on the Elixir Forum
-          </a>
-        </li>
-        <li>
-          <a href="https://discord.gg/elixir">
-            Join our Discord server
-          </a>
-        </li>
-        <li>
-          <a href="https://elixir-slack.community/">
-            Join us on Slack
-          </a>
-        </li>
-        <li>
-          <a href="https://fly.io/docs/elixir/getting-started/">
-            Deploy your application
-          </a>
-        </li>
-      </ul>
+        <ul>
+          <li>
+            <a href="https://elixirforum.com">
+              Discuss on the Elixir Forum
+            </a>
+          </li>
+          <li>
+            <a href="https://discord.gg/elixir">
+              Join our Discord server
+            </a>
+          </li>
+          <li>
+            <a href="https://elixir-slack.community/">
+              Join us on Slack
+            </a>
+          </li>
+          <li>
+            <a href="https://fly.io/docs/elixir/getting-started/">
+              Deploy your application
+            </a>
+          </li>
+        </ul>
 
-      <div class="align-right mt-6"><.oat_theme_toggle /></div>
+        <div class="align-right mt-6"><.oat_theme_toggle /></div>
+      </div>
     </div>
   </div>
-</div>
+</Layouts.oat_root>
