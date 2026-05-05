@@ -23,7 +23,9 @@ defmodule OatFirstWeb.Live.Countries do
       </table>
     </div>
 
-    <.oat_theme_toggle />
+    <div class="align-right mt-6">
+      <.oat_theme_toggle />
+    </div>
     """
   end
 
