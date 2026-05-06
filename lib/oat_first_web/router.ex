@@ -5,7 +5,16 @@ defmodule OatFirstWeb.Router do
     plug :accepts, ["html"]
     plug :fetch_session
     plug :fetch_live_flash
-    # plug :put_root_layout, html: {OatFirstWeb.Layouts, :root}
+    plug :put_root_layout, html: {OatFirstWeb.Layouts, :root}
+    plug :protect_from_forgery
+    plug :put_secure_browser_headers
+  end
+
+  pipeline :browser_leaflet do
+    plug :accepts, ["html"]
+    plug :fetch_session
+    plug :fetch_live_flash
+    plug :put_root_layout, html: {OatFirstWeb.Layouts, :root_leaflet}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
   end
@@ -19,6 +28,12 @@ defmodule OatFirstWeb.Router do
 
     get "/", PageController, :home
     live "/countries", Live.Countries, :new
+  end
+
+  scope "/leaflet", OatFirstWeb do
+    pipe_through :browser_leaflet
+
+    live "/map", Live.Map, :new
   end
 
   # Other scopes may use custom stacks.
