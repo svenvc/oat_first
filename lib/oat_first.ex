@@ -19,4 +19,14 @@ defmodule OatFirst do
       |> Map.new()
     end)
   end
+
+  def get_system_info() do
+    %{
+      elixir_version: System.version(),
+      otp_version: :erlang.system_info(:otp_release) |> List.to_string(),
+      phoenix_version: Application.spec(:phoenix, :vsn) |> List.to_string(),
+      application: Mix.Project.config()[:app] |> Atom.to_string(),
+      application_version: Mix.Project.config()[:version]
+    }
+  end
 end

@@ -5,7 +5,9 @@ defmodule OatFirstWeb.Live.Map do
   def render(assigns) do
     ~H"""
     <Layouts.flash_group flash={@flash} />
+
     <div id="map" class="fullscreen" />
+
     <script defer>
       var map = L.map('map').setView([<%= @lat %>, <%= @lon %>], <%= @zoom %>);
       L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {

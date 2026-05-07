@@ -28,6 +28,7 @@ defmodule OatFirstWeb.Router do
 
     get "/", PageController, :home
     live "/countries", Live.Countries, :new
+    live "/system-info", Live.SystemInfo, :new
   end
 
   scope "/leaflet", OatFirstWeb do
