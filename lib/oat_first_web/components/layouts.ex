@@ -109,45 +109,6 @@ defmodule OatFirstWeb.Layouts do
   end
 
   @doc """
-  Custom root layout for oat.ink
-  """
-
-  slot :inner_block, required: true
-
-  def leaflet_root(assigns) do
-    ~H"""
-    <!DOCTYPE html>
-    <html lang="en">
-      <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="csrf-token" content={get_csrf_token()} />
-        <.live_title default="OatFirst" suffix=" · Phoenix Framework">
-          {assigns[:page_title]}
-        </.live_title>
-        <link
-          rel="stylesheet"
-          href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
-          crossorigin=""
-        />
-        <link phx-track-static rel="stylesheet" href={~p"/assets/css/app.css"} />
-        <script defer phx-track-static type="text/javascript" src={~p"/assets/js/app.js"} />
-        <script
-          src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-          integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
-          crossorigin=""
-        >
-        </script>
-      </head>
-      <body>
-        {render_slot(@inner_block)}
-      </body>
-    </html>
-    """
-  end
-
-  @doc """
   Shows the flash group with standard titles and content.
 
   ## Examples
