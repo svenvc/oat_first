@@ -17,7 +17,9 @@ defmodule OatFirstWeb.Live.Countries do
         </thead>
         <tbody>
           <tr :for={{_id, row} <- @streams.countries}>
-            <td :for={col <- @columns}>{row[col]}</td>
+            <td :for={col <- @columns}>
+              <a href={show_on_map(row)} class="undecorated">{row[col]}</a>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -41,5 +43,9 @@ defmodule OatFirstWeb.Live.Countries do
 
   defp list_countries() do
     OatFirst.get_countries()
+  end
+
+  defp show_on_map(country_data) do
+    ~p"/leaflet/map?lon=#{country_data["lon"]}&lat=#{country_data["lat"]}&country=#{country_data["name"]}&capital=#{country_data["capital"]}"
   end
 end

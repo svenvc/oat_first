@@ -2,7 +2,7 @@
 
 /* minimal styling */
 body {
-    margin: 1em
+    margin: 1em;
 }
 
 /* oat.ink theme toggle support */
@@ -11,4 +11,14 @@ html[data-theme="dark"] .icon-dark {
 }
 html:not([data-theme="dark"]) .icon-light {
     display: none;
+}
+
+.undecorated {
+    text-decoration: none;
+    display: block;
+}
+
+.fullscreen {
+    width: 100vw;
+    height: 100vh;
 }
