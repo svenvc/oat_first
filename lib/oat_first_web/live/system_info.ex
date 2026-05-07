@@ -37,8 +37,20 @@ defmodule OatFirstWeb.Live.SystemInfo do
                   <td>{@system_info.otp_version}</td>
                 </tr>
                 <tr>
+                  <td>ERTS</td>
+                  <td>{@system_info.erts_version}</td>
+                </tr>
+                <tr>
                   <td>Phoenix</td>
                   <td>{@system_info.phoenix_version}</td>
+                </tr>
+                <tr>
+                  <td>Memory</td>
+                  <td>{@system_info.total_memory_human_readable}</td>
+                </tr>
+                <tr>
+                  <td>Uptime</td>
+                  <td>{@system_info.uptime_human_readable}</td>
                 </tr>
               </tbody>
             </table>

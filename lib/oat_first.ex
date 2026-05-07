@@ -24,9 +24,14 @@ defmodule OatFirst do
     %{
       elixir_version: System.version(),
       otp_version: :erlang.system_info(:otp_release) |> List.to_string(),
+      erts_version: :erlang.system_info(:version) |> List.to_string(),
       phoenix_version: Application.spec(:phoenix, :vsn) |> List.to_string(),
       application: Mix.Project.config()[:app] |> Atom.to_string(),
-      application_version: Mix.Project.config()[:version]
+      application_version: Mix.Project.config()[:version],
+      uptime_seconds: OatFirst.Uptime.seconds(),
+      uptime_human_readable: OatFirst.Uptime.human_readable(),
+      total_memory: :erlang.memory(:total),
+      total_memory_human_readable: "#{(:erlang.memory(:total) / 1024 / 1024) |> round()} MB"
     }
   end
 end
