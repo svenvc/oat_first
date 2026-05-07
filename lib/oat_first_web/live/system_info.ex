@@ -13,12 +13,6 @@ defmodule OatFirstWeb.Live.SystemInfo do
 
           <div class="table">
             <table>
-              <thead>
-                <tr>
-                  <th>key</th>
-                  <th>value</th>
-                </tr>
-              </thead>
               <tbody>
                 <tr>
                   <td>App</td>
