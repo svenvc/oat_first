@@ -76,8 +76,6 @@ defmodule OatFirstWeb.CoreComponents do
         },
         show() {
           const msg = this.el.dataset.message
-          if (!msg || msg === this.lastMessage) return
-          this.lastMessage = msg
           const title = this.el.dataset.title
           const variant = this.el.dataset.variant
           // console.log("flash " + title + " " + msg + " " + variant)
