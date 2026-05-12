@@ -24,7 +24,9 @@ config :oat_first, OatFirstWeb.Endpoint,
   code_reloader: true,
   debug_errors: true,
   secret_key_base: "IkK4gkavD4xaKadFyErcUxZ4i63HoPcw124iwlOcttvHBbbheE669HEmBpSConbg",
-  watchers: []
+  watchers: [
+    esbuild: {Esbuild, :install_and_run, [:oat_first, ~w(--sourcemap=inline --watch)]}
+  ]
 
 # ## SSL Support
 #
