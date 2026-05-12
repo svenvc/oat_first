@@ -70,45 +70,6 @@ defmodule OatFirstWeb.Layouts do
   end
 
   @doc """
-  Custom root layout for oat.ink
-  """
-
-  slot :inner_block, required: true
-
-  def oat_root(assigns) do
-    ~H"""
-    <!DOCTYPE html>
-    <html lang="en">
-      <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="csrf-token" content={get_csrf_token()} />
-        <.live_title default="OatFirst" suffix=" · Phoenix Framework">
-          {assigns[:page_title]}
-        </.live_title>
-        <script>
-          // Prevent FOUC - apply theme before rendering.
-          (function() {
-            var t = localStorage.getItem('theme');
-            if (t) {
-              document.documentElement.style.colorScheme = t;
-              document.documentElement.setAttribute('data-theme', t);
-            }
-          })();
-        </script>
-        <link phx-track-static rel="stylesheet" href={~p"/assets/css/app.css"} />
-        <link phx-track-static rel="stylesheet" href={~p"/assets/css/oat.min.css"} />
-        <script defer phx-track-static type="text/javascript" src={~p"/assets/js/app.js"} />
-        <script defer phx-track-static type="text/javascript" src={~p"/assets/js/oat.min.js"} />
-      </head>
-      <body>
-        {render_slot(@inner_block)}
-      </body>
-    </html>
-    """
-  end
-
-  @doc """
   Shows the flash group with standard titles and content.
 
   ## Examples
