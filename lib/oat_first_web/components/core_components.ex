@@ -51,31 +51,40 @@ defmodule OatFirstWeb.CoreComponents do
     assigns = assign_new(assigns, :id, fn -> "flash-#{assigns.kind}" end)
 
     ~H"""
+    <.custom_flash_colocated_hook />
     <div
       :if={msg = render_slot(@inner_block) || Phoenix.Flash.get(@flash, @kind)}
       id={@id}
-      data-flash
-      role="alert"
-      class="toast toast-top toast-end z-50"
-      {@rest}
+      phx-hook=".CustomFlash"
+      data-message={msg}
+      data-title={String.capitalize(to_string(@kind))}
+      data-variant={(@kind == :info && "info") || (@kind == :error && "danger")}
     >
-      <div class={[
-        "alert w-80 sm:w-96 max-w-80 sm:max-w-96 text-wrap",
-        @kind == :info && "alert-info",
-        @kind == :error && "alert-error"
-      ]}>
-        <.icon :if={@kind == :info} name="hero-information-circle" class="size-5 shrink-0" />
-        <.icon :if={@kind == :error} name="hero-exclamation-circle" class="size-5 shrink-0" />
-        <div>
-          <p :if={@title} class="font-semibold">{@title}</p>
-          <p>{msg}</p>
-        </div>
-        <div class="flex-1" />
-        <button type="button" class="group self-start cursor-pointer" aria-label={gettext("close")}>
-          <.icon name="hero-x-mark" class="size-5 opacity-40 group-hover:opacity-70" />
-        </button>
-      </div>
     </div>
+    """
+  end
+
+  defp custom_flash_colocated_hook(assigns) do
+    ~H"""
+    <script :type={Phoenix.LiveView.ColocatedHook} name=".CustomFlash">
+      export default {
+        mounted() {
+          this.show()
+        },
+        updated() {
+          this.show()
+        },
+        show() {
+          const msg = this.el.dataset.message
+          if (!msg || msg === this.lastMessage) return
+          this.lastMessage = msg
+          const title = this.el.dataset.title
+          const variant = this.el.dataset.variant
+          // console.log("flash " + title + " " + msg + " " + variant)
+          ot.toast(msg, title, { placement: "top-right", variant: variant, duration: 2000  })
+        }
+      }
+    </script>
     """
   end
 
