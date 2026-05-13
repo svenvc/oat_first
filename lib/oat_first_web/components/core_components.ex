@@ -59,6 +59,7 @@ defmodule OatFirstWeb.CoreComponents do
       data-message={msg}
       data-title={String.capitalize(to_string(@kind))}
       data-variant={(@kind == :info && "info") || (@kind == :error && "danger")}
+      data-time={Phoenix.Flash.get(@flash, :time)}
     >
     </div>
     """

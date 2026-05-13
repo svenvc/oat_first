@@ -77,6 +77,8 @@ defmodule OatFirstWeb.Live.SystemInfo do
   def handle_event("refresh", _unsigned_params, socket) do
     socket
     |> assign(:system_info, get_system_info())
+    |> put_flash(:info, "System information was updated")
+    |> put_flash(:time, System.os_time())
     |> then(&{:noreply, &1})
   end
 
