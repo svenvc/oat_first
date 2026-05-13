@@ -22,3 +22,11 @@ html:not([data-theme="dark"]) .icon-light {
     width: 100vw;
     height: 100vh;
 }
+
+.bold {
+    font-weight: bold;
+}
+
+.text-smaller {
+    font-size: 0.8em;
+}
