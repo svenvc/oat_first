@@ -22,7 +22,8 @@ defmodule OatFirstWeb.Live.Settings do
       enum: ~w(system light dark),
       default: "system",
       title: "UI Theme",
-      description: "Choose the UI theme, a selected static one, or follow the system configuration"
+      description:
+        "Choose the UI theme, a selected static one, or follow the system configuration"
     },
     %{
       key: "font-family",
@@ -30,7 +31,15 @@ defmodule OatFirstWeb.Live.Settings do
       enum: ["system", "Helvetica Neu", "Monaco", "Lucida Grande", "Open Sans Code"],
       default: "Monaco",
       title: "Font Family",
-      description: "Choose the font family for the text editor, or follow the system configuration"
+      description:
+        "Choose the font family for the text editor, or follow the system configuration"
+    },
+    %{
+      key: "api-key",
+      type: :string,
+      default: "",
+      title: "API Key",
+      description: "The HTTP bearer token to access the remote REST API"
     }
   ]
 
@@ -96,7 +105,13 @@ defmodule OatFirstWeb.Live.Settings do
 
   defp settings_control(%{type: :boolean} = assigns) do
     ~H"""
-    <input type="checkbox" role="switch" name={@name} checked={@value} phx-click={"changed-boolean-#{@name}"} />
+    <input
+      type="checkbox"
+      role="switch"
+      name={@name}
+      checked={@value}
+      phx-click={"changed-boolean-#{@name}"}
+    />
     """
   end
 
@@ -106,6 +121,20 @@ defmodule OatFirstWeb.Live.Settings do
       <select phx-change={"changed-enum-#{@name}"} name="value">
         <option :for={enum <- @meta.enum} value={enum} selected={@value == enum}>{enum}</option>
       </select>
+    </form>
+    """
+  end
+
+  defp settings_control(%{type: :string} = assigns) do
+    ~H"""
+    <form>
+      <input
+        type="text"
+        name={@name}
+        placeholder="XXXX-YYYY-ZZZZ"
+        phx-change={"changed-string-#{@name}"}
+        value={@value}
+      />
     </form>
     """
   end
@@ -133,6 +162,15 @@ defmodule OatFirstWeb.Live.Settings do
     socket
     |> update(:settings, fn settings ->
       settings |> Map.put(key, Map.get(params, "value"))
+    end)
+    |> then(&{:noreply, &1})
+  end
+
+  @impl true
+  def handle_event("changed-string-" <> key, params, socket) do
+    socket
+    |> update(:settings, fn settings ->
+      settings |> Map.put(key, Map.get(params, key))
     end)
     |> then(&{:noreply, &1})
   end
