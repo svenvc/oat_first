@@ -29,6 +29,7 @@ defmodule OatFirstWeb.Router do
     get "/", PageController, :home
     live "/countries", Live.Countries, :new
     live "/system-info", Live.SystemInfo, :new
+    live "/settings", Live.Settings, :new
     live "/test", Live.Test, :new
   end
 
