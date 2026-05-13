@@ -428,7 +428,7 @@ defmodule OatFirstWeb.CoreComponents do
 
   def oat_theme_toggle(assigns) do
     ~H"""
-    <button class="outline small" title="Switch theme" onclick="toggleTheme()">
+    <button class="outline small" onclick="toggleTheme()">
       <svg
         width="16"
         height="16"
