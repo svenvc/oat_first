@@ -28,7 +28,7 @@ defmodule OatFirstWeb.Live.Settings do
       key: "font-family",
       type: :enum,
       enum: ["system", "Helvetica Neu", "Monaco", "Lucida Grande", "Open Sans Code"],
-      default: "",
+      default: "Monaco",
       title: "Font Family",
       description: "Choose the font family for the text editor, or follow the system configuration"
     }
@@ -104,7 +104,7 @@ defmodule OatFirstWeb.Live.Settings do
     ~H"""
     <form>
       <select phx-change={"changed-enum-#{@name}"} name="value">
-        <option :for={enum <- @meta.enum} value={enum}>{enum}</option>
+        <option :for={enum <- @meta.enum} value={enum} selected={@value == enum}>{enum}</option>
       </select>
     </form>
     """
