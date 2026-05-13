@@ -15,6 +15,22 @@ defmodule OatFirstWeb.Live.Settings do
       default: true,
       title: "Enable Language Server",
       description: "Whether to use language servers to enable code intelligence"
+    },
+    %{
+      key: "theme",
+      type: :enum,
+      enum: ~w(system light dark),
+      default: "system",
+      title: "UI Theme",
+      description: "Choose the UI theme, a selected static one, or follow the system configuration"
+    },
+    %{
+      key: "font-family",
+      type: :enum,
+      enum: ["system", "Helvetica Neu", "Monaco", "Lucida Grande", "Open Sans Code"],
+      default: "",
+      title: "Font Family",
+      description: "Choose the font family for the text editor, or follow the system configuration"
     }
   ]
 
@@ -32,7 +48,7 @@ defmodule OatFirstWeb.Live.Settings do
 
       <div
         :for={
-          %{key: key, type: type, title: title, description: description} = _meta <- @settings_meta
+          %{key: key, type: type, title: title, description: description} = meta <- @settings_meta
         }
         class="row mt-4"
       >
@@ -41,7 +57,7 @@ defmodule OatFirstWeb.Live.Settings do
           <div class="text-smaller text-light">{description}</div>
         </div>
         <div class="col-2 align-right">
-          <.settings_control name={key} type={type} value={@settings[key]} />
+          <.settings_control name={key} type={type} value={@settings[key]} meta={meta} />
         </div>
       </div>
 
@@ -84,6 +100,16 @@ defmodule OatFirstWeb.Live.Settings do
     """
   end
 
+  defp settings_control(%{type: :enum} = assigns) do
+    ~H"""
+    <form>
+      <select phx-change={"changed-enum-#{@name}"} name="value">
+        <option :for={enum <- @meta.enum} value={enum}>{enum}</option>
+      </select>
+    </form>
+    """
+  end
+
   @impl true
   def mount(_params, _session, socket) do
     socket
@@ -102,7 +128,18 @@ defmodule OatFirstWeb.Live.Settings do
     |> then(&{:noreply, &1})
   end
 
-  defp default_settings() do
+  @impl true
+  def handle_event("changed-enum-" <> key, params, socket) do
+    socket
+    |> update(:settings, fn settings ->
+      settings |> Map.put(key, Map.get(params, "value"))
+    end)
+    |> then(&{:noreply, &1})
+  end
+
+  def settings_meta(), do: @settings_meta
+
+  def default_settings() do
     @settings_meta |> Enum.into(%{}, fn %{key: key, default: default} -> {key, default} end)
   end
 end
