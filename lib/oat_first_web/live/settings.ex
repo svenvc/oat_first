@@ -40,6 +40,16 @@ defmodule OatFirstWeb.Live.Settings do
       default: "",
       title: "API Key",
       description: "The HTTP bearer token to access the remote REST API"
+    },
+    %{
+      key: "max-load",
+      type: :integer,
+      default: 100,
+      min: 20,
+      max: 100,
+      step: 10,
+      title: "Maximum Load",
+      description: "Percentage of CPU load allowed before trottling down"
     }
   ]
 
@@ -133,8 +143,32 @@ defmodule OatFirstWeb.Live.Settings do
         name={@name}
         placeholder="XXXX-YYYY-ZZZZ"
         phx-change={"changed-string-#{@name}"}
+        phx-debounce
         value={@value}
       />
+    </form>
+    """
+  end
+
+  defp settings_control(%{type: :integer} = assigns) do
+    ~H"""
+    <form>
+      <fieldset class="group">
+        <button type="button" phx-click={"change-integer-#{@name}"} phx-value-step={-@meta.step}>
+          -
+        </button>
+        <input
+          type="text"
+          name={@name}
+          phx-change={"changed-integer-#{@name}"}
+          phx-debounce
+          value={@value}
+          class="align-center"
+        />
+        <button type="button" phx-click={"change-integer-#{@name}"} phx-value-step={@meta.step}>
+          +
+        </button>
+      </fieldset>
     </form>
     """
   end
@@ -175,9 +209,52 @@ defmodule OatFirstWeb.Live.Settings do
     |> then(&{:noreply, &1})
   end
 
+  @impl true
+  def handle_event("changed-integer-" <> key, params, socket) do
+    socket
+    |> update(:settings, fn settings ->
+      value = Map.get(params, key)
+
+      if is_integer(parse_integer(value)) do
+        settings |> Map.put(key, parse_integer(Map.get(params, key), 0))
+      else
+        settings
+      end
+    end)
+    |> then(&{:noreply, &1})
+  end
+
+  @impl true
+  def handle_event("change-integer-" <> key, params, socket) do
+    socket
+    |> update(:settings, fn settings ->
+      step = parse_integer(Map.get(params, "step"), 0)
+
+      settings
+      |> Map.update(key, 0, fn value ->
+        new_value = value + step
+        meta = socket.assigns.settings_meta |> Enum.find(fn m -> m.key == key end)
+
+        cond do
+          new_value < meta.min -> meta.min
+          new_value > meta.max -> meta.max
+          true -> new_value
+        end
+      end)
+    end)
+    |> then(&{:noreply, &1})
+  end
+
   def settings_meta(), do: @settings_meta
 
   def default_settings() do
     @settings_meta |> Enum.into(%{}, fn %{key: key, default: default} -> {key, default} end)
+  end
+
+  defp parse_integer(string, default \\ nil) do
+    case Integer.parse(string) do
+      {integer, _} -> integer
+      :error -> default
+    end
   end
 end
