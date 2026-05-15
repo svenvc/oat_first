@@ -76,7 +76,13 @@ defmodule OatFirstWeb.Live.Settings do
           <div class="text-smaller text-light">{description}</div>
         </div>
         <div class="col-2 align-right">
-          <.settings_control name={key} type={type} value={@settings[key]} meta={meta} />
+          <.settings_control
+            name={key}
+            type={type}
+            value={@settings[key]}
+            meta={meta}
+            error={Map.get(@settings_errors, key)}
+          />
         </div>
       </div>
 
@@ -153,22 +159,25 @@ defmodule OatFirstWeb.Live.Settings do
   defp settings_control(%{type: :integer} = assigns) do
     ~H"""
     <form>
-      <fieldset class="group">
-        <button type="button" phx-click={"change-integer-#{@name}"} phx-value-step={-@meta.step}>
-          -
-        </button>
-        <input
-          type="text"
-          name={@name}
-          phx-change={"changed-integer-#{@name}"}
-          phx-debounce
-          value={@value}
-          class="align-center"
-        />
-        <button type="button" phx-click={"change-integer-#{@name}"} phx-value-step={@meta.step}>
-          +
-        </button>
-      </fieldset>
+      <div data-field={@error && "error"}>
+        <fieldset class="group">
+          <button type="button" phx-click={"change-integer-#{@name}"} phx-value-step={-@meta.step}>
+            -
+          </button>
+          <input
+            type="text"
+            name={@name}
+            phx-change={"changed-integer-#{@name}"}
+            phx-debounce
+            value={@value}
+            class="align-center"
+          />
+          <button type="button" phx-click={"change-integer-#{@name}"} phx-value-step={@meta.step}>
+            +
+          </button>
+        </fieldset>
+        <div :if={@error} class="error" role="status">{@error}</div>
+      </div>
     </form>
     """
   end
@@ -179,6 +188,7 @@ defmodule OatFirstWeb.Live.Settings do
     |> assign(:page_title, "Settings")
     |> assign(:settings_meta, @settings_meta)
     |> assign(:settings, default_settings())
+    |> assign(:settings_errors, %{})
     |> then(&{:ok, &1})
   end
 
@@ -211,14 +221,23 @@ defmodule OatFirstWeb.Live.Settings do
 
   @impl true
   def handle_event("changed-integer-" <> key, params, socket) do
+    value = Map.get(params, key)
+    meta = socket.assigns.settings_meta |> Enum.find(fn m -> m.key == key end)
+    error = evaluate_constraints(meta, value)
+
     socket
     |> update(:settings, fn settings ->
-      value = Map.get(params, key)
-
-      if is_integer(parse_integer(value)) do
-        settings |> Map.put(key, parse_integer(Map.get(params, key), 0))
+      if int_value = parse_integer(value) do
+        settings |> Map.put(key, int_value)
       else
         settings
+      end
+    end)
+    |> update(:settings_errors, fn errors ->
+      if error do
+        errors |> Map.put(key, error)
+      else
+        errors |> Map.delete(key)
       end
     end)
     |> then(&{:noreply, &1})
@@ -234,27 +253,46 @@ defmodule OatFirstWeb.Live.Settings do
       |> Map.update(key, 0, fn value ->
         new_value = value + step
         meta = socket.assigns.settings_meta |> Enum.find(fn m -> m.key == key end)
-
-        cond do
-          new_value < meta.min -> meta.min
-          new_value > meta.max -> meta.max
-          true -> new_value
-        end
+        clamp(meta.min, new_value, meta.max)
       end)
     end)
     |> then(&{:noreply, &1})
   end
 
+  def clamp(min, value, max) do
+    cond do
+      value < min -> min
+      value > max -> max
+      true -> value
+    end
+  end
+
   def settings_meta(), do: @settings_meta
 
   def default_settings() do
-    @settings_meta |> Enum.into(%{}, fn %{key: key, default: default} -> {key, default} end)
+    @settings_meta
+    |> Enum.into(
+      %{},
+      fn %{key: key, default: default} -> {key, default} end
+    )
   end
 
-  defp parse_integer(string, default \\ nil) do
+  def parse_integer(string, default \\ nil) do
     case Integer.parse(string) do
       {integer, _} -> integer
       :error -> default
     end
+  end
+
+  def evaluate_constraints(%{type: :integer} = _meta, value) do
+    if is_integer(parse_integer(value)) do
+      nil
+    else
+      "Enter a valid integer"
+    end
+  end
+
+  def evaluate_constraints(_meta, _value) do
+    nil
   end
 end
