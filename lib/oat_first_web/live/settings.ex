@@ -50,6 +50,16 @@ defmodule OatFirstWeb.Live.Settings do
       step: 10,
       title: "Maximum Load",
       description: "Percentage of CPU load allowed before trottling down"
+    },
+    %{
+      key: "number-of-retries",
+      type: :integer,
+      default: 3,
+      min: 0,
+      max: 10,
+      step: 1,
+      title: "Number of Retries",
+      description: "How many times to retry a failed request"
     }
   ]
 
@@ -188,7 +198,7 @@ defmodule OatFirstWeb.Live.Settings do
     |> assign(:page_title, "Settings")
     |> assign(:settings_meta, @settings_meta)
     |> assign(:settings, default_settings())
-    |> assign(:settings_errors, %{})
+    |> clear_errors()
     |> then(&{:ok, &1})
   end
 
@@ -198,6 +208,7 @@ defmodule OatFirstWeb.Live.Settings do
     |> update(:settings, fn settings ->
       settings |> Map.put(key, Map.get(params, "value") == "on")
     end)
+    |> clear_errors()
     |> then(&{:noreply, &1})
   end
 
@@ -207,6 +218,7 @@ defmodule OatFirstWeb.Live.Settings do
     |> update(:settings, fn settings ->
       settings |> Map.put(key, Map.get(params, "value"))
     end)
+    |> clear_errors()
     |> then(&{:noreply, &1})
   end
 
@@ -216,6 +228,7 @@ defmodule OatFirstWeb.Live.Settings do
     |> update(:settings, fn settings ->
       settings |> Map.put(key, Map.get(params, key))
     end)
+    |> clear_errors()
     |> then(&{:noreply, &1})
   end
 
@@ -233,13 +246,7 @@ defmodule OatFirstWeb.Live.Settings do
         settings
       end
     end)
-    |> update(:settings_errors, fn errors ->
-      if error do
-        errors |> Map.put(key, error)
-      else
-        errors |> Map.delete(key)
-      end
-    end)
+    |> set_error(key, error)
     |> then(&{:noreply, &1})
   end
 
@@ -256,7 +263,16 @@ defmodule OatFirstWeb.Live.Settings do
         clamp(meta.min, new_value, meta.max)
       end)
     end)
+    |> clear_errors()
     |> then(&{:noreply, &1})
+  end
+
+  defp clear_errors(socket) do
+    socket |> assign(:settings_errors, %{})
+  end
+
+  defp set_error(socket, key, error) do
+    socket |> assign(:settings_errors, if(error, do: %{{key, error}}, else: %{}))
   end
 
   def clamp(min, value, max) do
@@ -279,20 +295,29 @@ defmodule OatFirstWeb.Live.Settings do
 
   def parse_integer(string, default \\ nil) do
     case Integer.parse(string) do
-      {integer, _} -> integer
+      {integer, ""} -> integer
+      {_integer, _} -> default
       :error -> default
     end
   end
 
-  def evaluate_constraints(%{type: :integer} = _meta, value) do
-    if is_integer(parse_integer(value)) do
-      nil
+  def evaluate_constraints(%{type: :integer} = meta, value) do
+    integer_value = parse_integer(value)
+
+    if is_integer(integer_value) do
+      cond do
+        integer_value < meta.min -> "Must be larger than #{meta.min}"
+        integer_value > meta.max -> "Must be smaller than #{meta.max}"
+        # no constraint violation
+        true -> nil
+      end
     else
-      "Enter a valid integer"
+      "Enter a valid integer number"
     end
   end
 
   def evaluate_constraints(_meta, _value) do
+    # no constraint violation
     nil
   end
 end
