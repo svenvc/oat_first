@@ -1,6 +1,8 @@
 defmodule OatFirstWeb.Live.Settings do
   use OatFirstWeb, :live_view
 
+  require Logger
+
   @settings_meta [
     %{
       key: "debug-mode",
@@ -204,9 +206,12 @@ defmodule OatFirstWeb.Live.Settings do
 
   @impl true
   def handle_event("changed-boolean-" <> key, params, socket) do
+    new_value = Map.get(params, "value") == "on"
+
     socket
     |> update(:settings, fn settings ->
-      settings |> Map.put(key, Map.get(params, "value") == "on")
+      notify_setting_changed(key, new_value)
+      settings |> Map.put(key, new_value)
     end)
     |> clear_errors()
     |> then(&{:noreply, &1})
@@ -214,9 +219,12 @@ defmodule OatFirstWeb.Live.Settings do
 
   @impl true
   def handle_event("changed-enum-" <> key, params, socket) do
+    new_value = Map.get(params, "value")
+
     socket
     |> update(:settings, fn settings ->
-      settings |> Map.put(key, Map.get(params, "value"))
+      notify_setting_changed(key, new_value)
+      settings |> Map.put(key, new_value)
     end)
     |> clear_errors()
     |> then(&{:noreply, &1})
@@ -224,9 +232,12 @@ defmodule OatFirstWeb.Live.Settings do
 
   @impl true
   def handle_event("changed-string-" <> key, params, socket) do
+    new_value = Map.get(params, key)
+
     socket
     |> update(:settings, fn settings ->
-      settings |> Map.put(key, Map.get(params, key))
+      notify_setting_changed(key, new_value)
+      settings |> Map.put(key, new_value)
     end)
     |> clear_errors()
     |> then(&{:noreply, &1})
@@ -234,13 +245,14 @@ defmodule OatFirstWeb.Live.Settings do
 
   @impl true
   def handle_event("changed-integer-" <> key, params, socket) do
-    value = Map.get(params, key)
+    new_value = Map.get(params, key)
     meta = socket.assigns.settings_meta |> Enum.find(fn m -> m.key == key end)
-    error = evaluate_constraints(meta, value)
+    error = evaluate_constraints(meta, new_value)
 
     socket
     |> update(:settings, fn settings ->
-      if int_value = parse_integer(value) do
+      if int_value = parse_integer(new_value) do
+        notify_setting_changed(key, new_value)
         settings |> Map.put(key, int_value)
       else
         settings
@@ -260,11 +272,27 @@ defmodule OatFirstWeb.Live.Settings do
       |> Map.update(key, 0, fn value ->
         new_value = value + step
         meta = socket.assigns.settings_meta |> Enum.find(fn m -> m.key == key end)
-        clamp(meta.min, new_value, meta.max)
+        new_value = clamp(meta.min, new_value, meta.max)
+        notify_setting_changed(key, new_value)
+        new_value
       end)
     end)
     |> clear_errors()
     |> then(&{:noreply, &1})
+  end
+
+  @impl true
+  def handle_info({:setting_changed, "theme", value}, socket) do
+    Logger.info("changed theme: #{value}")
+    socket
+    |> push_event("set-theme", %{theme: value})
+    |> then(&{:noreply, &1})
+  end
+
+  @impl true
+  def handle_info({:setting_changed, key, value}, socket) do
+    Logger.info("setting changed: #{key} = #{value}")
+    socket |> then(&{:noreply, &1})
   end
 
   defp clear_errors(socket) do
@@ -273,6 +301,10 @@ defmodule OatFirstWeb.Live.Settings do
 
   defp set_error(socket, key, error) do
     socket |> assign(:settings_errors, if(error, do: %{{key, error}}, else: %{}))
+  end
+
+  defp notify_setting_changed(key, value) do
+    send(self(), {:setting_changed, key, value})
   end
 
   def clamp(min, value, max) do
