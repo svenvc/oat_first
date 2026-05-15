@@ -429,7 +429,12 @@ defmodule OatFirstWeb.CoreComponents do
 
   def oat_theme_toggle(assigns) do
     ~H"""
-    <button class="outline small" onclick="toggleTheme()">
+    <.theme_toggle_colocated_hook />
+    <button
+      id="oat-theme-toggle"
+      class="outline small"
+      phx-hook=".ThemeToggle"
+    >
       <svg
         width="16"
         height="16"
@@ -461,6 +466,44 @@ defmodule OatFirstWeb.CoreComponents do
         <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
       </svg>
     </button>
+    """
+  end
+
+  defp theme_toggle_colocated_hook(assigns) do
+    ~H"""
+    <script :type={Phoenix.LiveView.ColocatedHook} name=".ThemeToggle">
+      export default {
+        mounted() {
+          this.handleEvent("set-theme", (e) => {
+            this.applyTheme(e.theme);
+          });
+          this.el.addEventListener("click", () => {
+            this.toggleTheme()
+          });
+        },
+        applyTheme(theme) {
+          if (theme === "system") {
+            document.documentElement.style.colorScheme = "";
+            document.documentElement.removeAttribute("data-theme");
+            localStorage.removeItem("theme");
+            return;
+          }
+          document.documentElement.style.colorScheme = theme;
+          document.documentElement.setAttribute("data-theme", theme);
+          localStorage.setItem("theme", theme);
+        },
+        toggleTheme() {
+          var cs = document.documentElement.style.colorScheme;
+          var isDark =
+            cs === "dark" ||
+            (!cs && matchMedia("(prefers-color-scheme: dark)").matches);
+          var theme = isDark ? "light" : "dark";
+          document.documentElement.style.colorScheme = theme;
+          document.documentElement.setAttribute("data-theme", theme);
+          localStorage.setItem("theme", theme);
+        }
+      }
+    </script>
     """
   end
 
