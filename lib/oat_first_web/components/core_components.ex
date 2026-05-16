@@ -434,6 +434,7 @@ defmodule OatFirstWeb.CoreComponents do
       id="oat-theme-toggle"
       class="outline small"
       phx-hook=".ThemeToggle"
+      theme-changed-event={assigns[:theme_changed_event]}
     >
       <svg
         width="16"
@@ -478,7 +479,8 @@ defmodule OatFirstWeb.CoreComponents do
             this.applyTheme(e.theme);
           });
           this.el.addEventListener("click", () => {
-            this.toggleTheme()
+            var theme_changed_event = this.el.getAttribute("theme-changed-event");
+            this.toggleTheme(theme_changed_event)
           });
         },
         applyTheme(theme) {
@@ -492,7 +494,7 @@ defmodule OatFirstWeb.CoreComponents do
           document.documentElement.setAttribute("data-theme", theme);
           localStorage.setItem("theme", theme);
         },
-        toggleTheme() {
+        toggleTheme(theme_changed_event) {
           var cs = document.documentElement.style.colorScheme;
           var isDark =
             cs === "dark" ||
@@ -501,6 +503,9 @@ defmodule OatFirstWeb.CoreComponents do
           document.documentElement.style.colorScheme = theme;
           document.documentElement.setAttribute("data-theme", theme);
           localStorage.setItem("theme", theme);
+          if (theme_changed_event) {
+            this.js().push(this.el, theme_changed_event, {value: {theme: theme}});
+          }
         }
       }
     </script>

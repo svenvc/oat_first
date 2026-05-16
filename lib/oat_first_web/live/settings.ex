@@ -123,7 +123,7 @@ defmodule OatFirstWeb.Live.Settings do
           </div>
 
           <div class="align-right mt-6">
-            <.oat_theme_toggle />
+            <.oat_theme_toggle theme_changed_event="theme-changed" />
           </div>
         </div>
       </div>
@@ -282,8 +282,18 @@ defmodule OatFirstWeb.Live.Settings do
   end
 
   @impl true
+  def handle_event("theme-changed", %{"theme" => theme} = _params, socket) do
+    Logger.info("toggle changed theme: #{theme}")
+
+    socket
+    |> update(:settings, fn settings -> settings |> Map.put("theme", theme) end)
+    |> then(&{:noreply, &1})
+  end
+
+  @impl true
   def handle_info({:setting_changed, "theme", value}, socket) do
-    Logger.info("changed theme: #{value}")
+    Logger.info("settings changed theme: #{value}")
+
     socket
     |> push_event("set-theme", %{theme: value})
     |> then(&{:noreply, &1})
@@ -292,6 +302,7 @@ defmodule OatFirstWeb.Live.Settings do
   @impl true
   def handle_info({:setting_changed, key, value}, socket) do
     Logger.info("setting changed: #{key} = #{value}")
+
     socket |> then(&{:noreply, &1})
   end
 
