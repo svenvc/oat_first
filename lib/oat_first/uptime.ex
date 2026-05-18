@@ -9,7 +9,7 @@ defmodule OatFirst.Uptime do
   end
 
   def format_duration(seconds) when seconds < 60 do
-    "#{seconds} second#{if seconds != 1, do: "s", else: ""}"
+    "#{pluralize("second", seconds)}"
   end
 
   def format_duration(seconds) do
@@ -18,7 +18,7 @@ defmodule OatFirst.Uptime do
 
     cond do
       minutes < 60 ->
-        "#{pluralize("minute", minutes)}, #{pluralize("second", seconds)}"
+        compose("minute", minutes, "second", seconds)
 
       true ->
         hours = div(minutes, 60)
@@ -26,7 +26,7 @@ defmodule OatFirst.Uptime do
 
         cond do
           hours < 24 ->
-            "#{pluralize("hour", hours)}, #{pluralize("minute", minutes)}"
+            compose("hour", hours, "minute", minutes)
 
           true ->
             days = div(hours, 24)
@@ -34,13 +34,13 @@ defmodule OatFirst.Uptime do
 
             cond do
               days < 7 ->
-                "#{pluralize("day", days)}, #{pluralize("hour", hours)}"
+                compose("day", days, "hour", hours)
 
               true ->
                 weeks = div(days, 7)
                 days = rem(days, 7)
 
-                "#{pluralize("week", weeks)}, #{pluralize("day", days)}"
+                compose("week", weeks, "day", days)
             end
         end
     end
@@ -48,6 +48,14 @@ defmodule OatFirst.Uptime do
 
   defp pluralize(word, count) when count != 1, do: "#{count} #{word}s"
   defp pluralize(word, count) when count == 1, do: "#{count} #{word}"
+
+  defp compose(unit1, count1, _unit2, count2) when count2 == 0 do
+    "#{pluralize(unit1, count1)}"
+  end
+
+  defp compose(unit1, count1, unit2, count2) when count2 > 0 do
+    "#{pluralize(unit1, count1)}, #{pluralize(unit2, count2)}"
+  end
 
   def formatted do
     total_seconds = seconds()
