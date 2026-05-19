@@ -6,15 +6,60 @@ defmodule OatFirstWeb.Live.Map do
     ~H"""
     <Layouts.flash_group flash={@flash} />
 
-    <div id="map" class="fullscreen" />
+    <.map_colocated_hook />
+    <div
+      id="map"
+      class="fullscreen"
+      phx-hook=".MapHook"
+      phx-update="ignore"
+      data-lat={@lat}
+      data-lon={@lon}
+      data-zoom={@zoom}
+    />
+    """
+  end
 
-    <script defer>
-      var map = L.map('map').setView([<%= @lat %>, <%= @lon %>], <%= @zoom %>);
-      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-          maxZoom: 19,
-          attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-      }).addTo(map);
-      var marker = L.marker([<%= @lat %>, <%= @lon %>]).addTo(map);
+  defp map_colocated_hook(assigns) do
+    ~H"""
+    <script :type={Phoenix.LiveView.ColocatedHook} name=".MapHook">
+      export default {
+        mounted() {
+          this.loadLeaflet(() => this.initMap())
+        },
+        loadLeaflet(callback) {
+          if (typeof L !== "undefined") {
+            callback()
+            return
+          }
+
+          const link = document.createElement("link")
+          link.rel = "stylesheet"
+          link.href = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+          link.integrity = "sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+          link.crossOrigin = ""
+          document.head.appendChild(link)
+
+          const script = document.createElement("script")
+          script.src = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+          script.integrity = "sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+          script.crossOrigin = ""
+          script.onload = callback
+          document.head.appendChild(script)
+        },
+        initMap() {
+          const el = this.el
+          const lat = parseFloat(el.dataset.lat)
+          const lon = parseFloat(el.dataset.lon)
+          const zoom = parseInt(el.dataset.zoom, 10)
+
+          const map = L.map(el.id).setView([lat, lon], zoom)
+          L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+            maxZoom: 19,
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+          }).addTo(map)
+          L.marker([lat, lon]).addTo(map)
+        }
+      }
     </script>
     """
   end
