@@ -27,6 +27,7 @@ defmodule OatFirstWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :home
+    live "/menu", Live.Menu, :new
     live "/countries", Live.Countries, :new
     live "/system-info", Live.SystemInfo, :new
     live "/settings", Live.Settings, :new

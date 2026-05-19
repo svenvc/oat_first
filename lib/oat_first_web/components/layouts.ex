@@ -45,13 +45,13 @@ defmodule OatFirstWeb.Layouts do
       <div class="flex-none">
         <ul class="flex flex-column px-1 space-x-4 items-center">
           <li>
-            <a href="https://phoenixframework.org/" class="btn btn-ghost">Website</a>
+            <a href="https://phoenixframework.org/" class="button ghost">Website</a>
           </li>
           <li>
-            <a href="https://github.com/phoenixframework/phoenix" class="btn btn-ghost">GitHub</a>
+            <a href="https://github.com/phoenixframework/phoenix" class="button ghost">GitHub</a>
           </li>
           <li>
-            <a href="https://hexdocs.pm/phoenix/overview.html" class="btn btn-primary">
+            <a href="https://hexdocs.pm/phoenix/overview.html" class="button">
               Get Started <span aria-hidden="true">&rarr;</span>
             </a>
           </li>
