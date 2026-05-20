@@ -98,4 +98,9 @@ defmodule Counter.Endpoint do
 end
 
 {:ok, _} = Supervisor.start_link([Counter.Endpoint], strategy: :one_for_one)
+
+apps = Application.started_applications() |> Enum.map(fn {name, _, _} -> name end)
+
+IO.puts("\nApplication.started_applications: #{inspect(apps)}\n")
+
 Process.sleep(:infinity)
