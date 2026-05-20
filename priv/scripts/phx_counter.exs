@@ -1,5 +1,9 @@
 # Single file Phoenix LiveView Counter example
 
+require Logger
+
+Logger.info("Running single file Phoenix LiveView Counter example")
+
 defmodule Counter.Random do
   def string(count) do
     Stream.repeatedly(fn -> Enum.random(?A..?Z) end) |> Enum.take(count) |> List.to_string()
@@ -101,6 +105,6 @@ end
 
 apps = Application.started_applications() |> Enum.map(fn {name, _, _} -> name end)
 
-IO.puts("\nApplication.started_applications: #{inspect(apps)}\n")
+Logger.info("Started applications #{inspect(apps)}")
 
 Process.sleep(:infinity)
