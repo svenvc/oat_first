@@ -51,6 +51,9 @@ defmodule Counter.HomeLive do
         </script>
         <link rel="stylesheet" href="https://unpkg.com/@knadh/oat/oat.min.css" />
         <script src="https://unpkg.com/@knadh/oat/oat.min.js" defer />
+        <style>
+          body { display: flex; justify-content: center; margin: 2em; }
+        </style>
       </head>
       {@inner_content}
     </html>
@@ -59,19 +62,17 @@ defmodule Counter.HomeLive do
 
   def render(assigns) do
     ~H"""
-    <body style="display: flex; justify-content: center; margin: 2em">
+    <body>
       <article class="card">
         <header>
           <h1>Counter</h1>
         </header>
         <div class="hstack mt-6">
           <button phx-click="dec">-</button>
-          <h2>{@count}</h2>
+          {@count}
           <button phx-click="inc">+</button>
         </div>
-        <footer class="mt-6">
-          <p>A number between 0 and 9</p>
-        </footer>
+        <footer class="mt-6">A number between 0 and 9</footer>
       </article>
     </body>
     """
