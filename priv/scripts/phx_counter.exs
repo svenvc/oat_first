@@ -29,7 +29,7 @@ defmodule Counter.ErrorView do
 end
 
 defmodule Counter.HomeLive do
-  use Phoenix.LiveView, layout: {__MODULE__, :live}
+  use Phoenix.LiveView
 
   def mount(_params, _session, socket) do
     {:ok, assign(socket, :count, 0)}
@@ -38,7 +38,7 @@ defmodule Counter.HomeLive do
   defp phx_vsn, do: Application.spec(:phoenix, :vsn)
   defp lv_vsn, do: Application.spec(:phoenix_live_view, :vsn)
 
-  def render("live.html", assigns) do
+  def render("html.html", assigns) do
     ~H"""
     <!DOCTYPE html>
     <html>
@@ -57,26 +57,26 @@ defmodule Counter.HomeLive do
           .w1 { width: 1em; }
         </style>
       </head>
-      {@inner_content}
+      <body>
+        {@inner_content}
+      </body>
     </html>
     """
   end
 
   def render(assigns) do
     ~H"""
-    <body>
-      <article class="card">
-        <header>
-          <h1>Counter</h1>
-        </header>
-        <div class="hstack mt-6">
-          <button phx-click="dec">-</button>
-          <div class="w1 align-center">{@count}</div>
-          <button phx-click="inc">+</button>
-        </div>
-        <footer class="mt-6">A number between 0 and 9</footer>
-      </article>
-    </body>
+    <article class="card">
+      <header>
+        <h1>Counter</h1>
+      </header>
+      <div class="hstack mt-6">
+        <button phx-click="dec">-</button>
+        <div class="w1 align-center">{@count}</div>
+        <button phx-click="inc">+</button>
+      </div>
+      <footer class="mt-6">A number between 0 and 9</footer>
+    </article>
     """
   end
 
@@ -95,6 +95,7 @@ defmodule Counter.Router do
 
   pipeline :browser do
     plug(:accepts, ["html"])
+    plug(:put_root_layout, {Counter.HomeLive, :html})
   end
 
   scope "/", Counter do
