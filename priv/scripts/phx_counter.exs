@@ -59,13 +59,20 @@ defmodule Counter.HomeLive do
 
   def render(assigns) do
     ~H"""
-    <body style="margin:2em">
-      <h1>Counter</h1>
-      <div class="hstack mt-6">
-        <button phx-click="dec">-</button>
-        <h2>{@count}</h2>
-        <button phx-click="inc">+</button>
-      </div>
+    <body style="display: flex; justify-content: center; margin: 2em">
+      <article class="card">
+        <header>
+          <h1>Counter</h1>
+        </header>
+        <div class="hstack mt-6">
+          <button phx-click="dec">-</button>
+          <h2>{@count}</h2>
+          <button phx-click="inc">+</button>
+        </div>
+        <footer class="mt-6">
+          <p>A number between 0 and 9</p>
+        </footer>
+      </article>
     </body>
     """
   end
