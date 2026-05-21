@@ -40,6 +40,7 @@ defmodule Counter.HomeLive do
 
   def render("live.html", assigns) do
     ~H"""
+    <!DOCTYPE html>
     <html>
       <head>
         <title>Counter</title>
