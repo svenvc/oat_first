@@ -38,7 +38,7 @@ defmodule Counter.HomeLive do
   defp phx_vsn, do: Application.spec(:phoenix, :vsn)
   defp lv_vsn, do: Application.spec(:phoenix_live_view, :vsn)
 
-  def render("html.html", assigns) do
+  def root_layout(assigns) do
     ~H"""
     <!DOCTYPE html>
     <html>
@@ -95,7 +95,7 @@ defmodule Counter.Router do
 
   pipeline :browser do
     plug(:accepts, ["html"])
-    plug(:put_root_layout, {Counter.HomeLive, :html})
+    plug(:put_root_layout, {Counter.HomeLive, :root_layout})
   end
 
   scope "/", Counter do
