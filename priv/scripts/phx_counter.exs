@@ -52,7 +52,7 @@ defmodule Counter.HomeLive do
         <link rel="stylesheet" href="https://unpkg.com/@knadh/oat/oat.min.css" />
         <script src="https://unpkg.com/@knadh/oat/oat.min.js" defer />
         <style>
-          body { display: flex; justify-content: center; margin: 2em; }
+          body { display: flex; justify-content: center; margin: 2em; color-scheme: dark; }
           .w1 { width: 1em; }
         </style>
       </head>
@@ -63,7 +63,7 @@ defmodule Counter.HomeLive do
 
   def render(assigns) do
     ~H"""
-    <body data-theme="dark">
+    <body>
       <article class="card">
         <header>
           <h1>Counter</h1>
