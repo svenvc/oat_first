@@ -527,6 +527,23 @@ defmodule OatFirstWeb.CoreComponents do
     """
   end
 
+  def locale_selector(assigns) do
+    ~H"""
+    <form>
+      <select phx-change="locale-changed" name="locale" class="small">
+        <option
+          :for={locale <- Gettext.known_locales(OatFirstWeb.Gettext)}
+          value={locale}
+          selected={Gettext.get_locale(OatFirstWeb.Gettext) == locale}
+          class="small"
+        >
+          {locale}
+        </option>
+      </select>
+    </form>
+    """
+  end
+
   ## JS Commands
 
   def show(js \\ %JS{}, selector) do

@@ -30,3 +30,14 @@ html:not([data-theme="dark"]) .icon-light {
 .text-smaller {
     font-size: 0.8em;
 }
+
+select.small {
+    font-size: var(--text-8);
+    padding: 0.2rem 1.75rem 0.2rem 0.5rem;
+    margin-block-start: 0;
+    line-height: 1.4;
+}
+
+select.small + option {
+    font-size: var(--text-8);
+}
