@@ -529,18 +529,24 @@ defmodule OatFirstWeb.CoreComponents do
 
   def locale_selector(assigns) do
     ~H"""
-    <form>
-      <select phx-change="locale-changed" name="locale" class="small">
-        <option
+    <ot-dropdown class="locale-selector">
+      <button popovertarget="locale-menu" class="outline small">
+        {@locale && Gettext.get_locale(OatFirstWeb.Gettext)}
+      </button>
+      <menu popover id="locale-menu">
+        <button
           :for={locale <- Gettext.known_locales(OatFirstWeb.Gettext)}
-          value={locale}
-          selected={Gettext.get_locale(OatFirstWeb.Gettext) == locale}
-          class="small"
+          phx-click="locale-changed"
+          phx-value-locale={locale}
+          role="menuitem"
+          class="outline small"
+          onclick="this.closest('[popover]').hidePopover()"
         >
           {locale}
-        </option>
-      </select>
-    </form>
+          {(locale == @locale && " ✓") || nil}
+        </button>
+      </menu>
+    </ot-dropdown>
     """
   end
 

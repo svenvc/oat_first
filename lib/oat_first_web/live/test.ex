@@ -11,7 +11,9 @@ defmodule OatFirstWeb.Live.Test do
     <h1>{@page_title}</h1>
 
     <div class="hstack">
-      <button phx-click="test-click" class="outline small">{@locale && dgettext("app", "Go")}</button>
+      <button phx-click="test-click" class="outline small">
+        {@locale && dgettext("app", "Go")}
+      </button>
       <button phx-click="test-error" class="outline small">
         {@locale && dgettext("app", "Error")}
       </button>
@@ -20,7 +22,7 @@ defmodule OatFirstWeb.Live.Test do
     <div class="flex justify-end mt-6">
       <div class="hstack">
         <.oat_theme_toggle />
-        <.locale_selector />
+        <.locale_selector locale={@locale} />
       </div>
     </div>
     """

@@ -31,13 +31,12 @@ html:not([data-theme="dark"]) .icon-light {
     font-size: 0.8em;
 }
 
-select.small {
-    font-size: var(--text-8);
-    padding: 0.2rem 1.75rem 0.2rem 0.5rem;
-    margin-block-start: 0;
-    line-height: 1.4;
+ot-dropdown.locale-selector [popover] {
+    min-width: unset;
+    width: max-content;
+    transition: none;
 }
 
-select.small + option {
-    font-size: var(--text-8);
+ot-dropdown.locale-selector [popover]:popover-open {
+    transition: opacity 0.15s ease-out, transform 0.15s ease-out;
 }
