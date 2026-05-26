@@ -1,0 +1,37 @@
+## "msgid"s in this file come from POT (.pot) files.
+###
+### Do not add, change, or remove "msgid"s manually here as
+### they're tied to the ones in the corresponding POT file
+### (with the same domain).
+###
+### Use "mix gettext.extract --merge" or "mix gettext.merge"
+### to merge POT files into PO files.
+msgid ""
+msgstr ""
+"Language: de\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: lib/oat_first_web/live/test.ex:42
+#, elixir-autogen, elixir-format
+msgid "An error occurred"
+msgstr "Ein Fehler ist aufgetreten"
+
+#: lib/oat_first_web/live/test.ex:13
+#, elixir-autogen, elixir-format
+msgid "Error"
+msgstr "Fehler"
+
+#: lib/oat_first_web/live/test.ex:12
+#, elixir-autogen, elixir-format
+msgid "Go"
+msgstr "Gehe"
+
+#: lib/oat_first_web/live/test.ex:28
+#, elixir-autogen, elixir-format
+msgid "Test"
+msgstr "Test"
+
+#: lib/oat_first_web/live/test.ex:35
+#, elixir-autogen, elixir-format
+msgid "You clicked the Go button"
+msgstr "Sie haben die Schaltfläche Gehe angeklickt"
