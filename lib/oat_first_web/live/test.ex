@@ -12,10 +12,10 @@ defmodule OatFirstWeb.Live.Test do
 
     <div class="hstack">
       <button phx-click="test-click" class="outline small">
-        {@locale && dgettext("app", "Go")}
+        {dgettext("app", "Go")}
       </button>
       <button phx-click="test-error" class="outline small">
-        {@locale && dgettext("app", "Error")}
+        {dgettext("app", "Error")}
       </button>
     </div>
 
@@ -31,28 +31,42 @@ defmodule OatFirstWeb.Live.Test do
   @impl true
   def mount(_params, _session, socket) do
     socket
-    |> assign(:page_title, dgettext("app", "Test"))
-    |> assign(:locale, Gettext.get_locale(OatFirstWeb.Gettext))
     |> then(&{:ok, &1})
   end
 
   @impl true
-  def handle_event("test-click", _unsigned_params, socket) do
-    socket
-    |> put_flash(
-      :info,
-      "#{dgettext("app", "You clicked the Go button")} @ #{Time.utc_now() |> to_string()}"
-    )
+  def handle_params(params, _uri, socket) do
+    locale = Map.get(params, "locale", Gettext.get_locale(OatFirstWeb.Gettext))
+
+    if locale in Gettext.known_locales(OatFirstWeb.Gettext) do
+      Gettext.put_locale(OatFirstWeb.Gettext, locale)
+
+      socket
+      |> assign(:page_title, dgettext("app", "Test"))
+      |> assign(:locale, locale)
+    else
+      socket
+    end
     |> then(&{:noreply, &1})
   end
 
   @impl true
-  def handle_event("test-error", _unsigned_params, socket) do
+  def handle_event("test-click", _params, socket) do
+    now = Time.utc_now() |> to_string()
+    msg = dgettext("app", "You clicked the Go button")
+
     socket
-    |> put_flash(
-      :error,
-      "#{dgettext("app", "An error occurred")} @ #{Time.utc_now() |> to_string()}"
-    )
+    |> put_flash(:info, "#{msg} @ #{now}")
+    |> then(&{:noreply, &1})
+  end
+
+  @impl true
+  def handle_event("test-error", _params, socket) do
+    now = Time.utc_now() |> to_string()
+    msg = dgettext("app", "An error occurred")
+
+    socket
+    |> put_flash(:error, "#{msg} @ #{now}")
     |> then(&{:noreply, &1})
   end
 
@@ -63,8 +77,7 @@ defmodule OatFirstWeb.Live.Test do
       Gettext.put_locale(OatFirstWeb.Gettext, locale)
 
       socket
-      |> assign(:locale, locale)
-      |> assign(:page_title, dgettext("app", "Test"))
+      |> push_navigate(to: ~p"/test?locale=#{locale}")
     else
       socket
     end

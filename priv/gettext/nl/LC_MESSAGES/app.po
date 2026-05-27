@@ -29,7 +29,7 @@ msgstr "Ga"
 #: lib/oat_first_web/live/test.ex:28
 #, elixir-autogen, elixir-format
 msgid "Test"
-msgstr "Test"
+msgstr "Test (nl)"
 
 #: lib/oat_first_web/live/test.ex:35
 #, elixir-autogen, elixir-format
