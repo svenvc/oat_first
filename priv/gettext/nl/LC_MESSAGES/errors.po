@@ -100,3 +100,13 @@ msgstr ""
 
 msgid "must be equal to %{number}"
 msgstr ""
+
+#: lib/oat_first_web/components/core_components.ex:62
+#, elixir-autogen, elixir-format
+msgid "Error"
+msgstr "Fout"
+
+#: lib/oat_first_web/components/core_components.ex:61
+#, elixir-autogen, elixir-format
+msgid "Info"
+msgstr ""

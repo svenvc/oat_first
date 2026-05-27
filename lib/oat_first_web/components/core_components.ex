@@ -57,7 +57,10 @@ defmodule OatFirstWeb.CoreComponents do
       id={@id}
       phx-hook=".CustomFlash"
       data-message={msg}
-      data-title={String.capitalize(to_string(@kind))}
+      data-title={
+        (@kind == :info && dgettext("errors", "Info")) ||
+          (@kind == :error && dgettext("errors", "Error"))
+      }
       data-variant={(@kind == :info && "info") || (@kind == :error && "danger")}
       data-time={Phoenix.Flash.get(@flash, :time)}
     >

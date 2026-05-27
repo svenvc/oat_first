@@ -77,7 +77,7 @@ defmodule OatFirstWeb.Live.Test do
   def handle_event("test-ping", _params, socket) do
     socket
     |> clear_flash()
-    |> put_flash(:info, "pong")
+    |> put_flash(:info, "Pong")
     |> put_flash(:time, Time.utc_now() |> to_string())
     |> then(&{:noreply, &1})
   end

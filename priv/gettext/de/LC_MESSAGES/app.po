@@ -11,27 +11,32 @@ msgstr ""
 "Language: de\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: lib/oat_first_web/live/test.ex:42
+#: lib/oat_first_web/live/test.ex:69
 #, elixir-autogen, elixir-format
 msgid "An error occurred"
 msgstr "Ein Fehler ist aufgetreten"
 
-#: lib/oat_first_web/live/test.ex:13
+#: lib/oat_first_web/live/test.ex:18
 #, elixir-autogen, elixir-format
 msgid "Error"
 msgstr "Fehler"
 
-#: lib/oat_first_web/live/test.ex:12
+#: lib/oat_first_web/live/test.ex:15
 #, elixir-autogen, elixir-format
 msgid "Go"
 msgstr "Gehe"
 
-#: lib/oat_first_web/live/test.ex:28
+#: lib/oat_first_web/live/test.ex:48
 #, elixir-autogen, elixir-format
 msgid "Test"
 msgstr "Test (de)"
 
-#: lib/oat_first_web/live/test.ex:35
+#: lib/oat_first_web/live/test.ex:59
 #, elixir-autogen, elixir-format
 msgid "You clicked the Go button"
 msgstr "Sie haben die Schaltfläche Gehe angeklickt"
+
+#: lib/oat_first_web/live/test.ex:21
+#, elixir-autogen, elixir-format
+msgid "Ping"
+msgstr ""
