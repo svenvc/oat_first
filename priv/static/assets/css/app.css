@@ -32,11 +32,8 @@ html:not([data-theme="dark"]) .icon-light {
 }
 
 ot-dropdown.locale-selector [popover] {
-    min-width: unset;
+    min-width: 4rem;
     width: max-content;
+    opacity: 0;
     transition: none;
-}
-
-ot-dropdown.locale-selector [popover]:popover-open {
-    transition: opacity 0.15s ease-out, transform 0.15s ease-out;
 }

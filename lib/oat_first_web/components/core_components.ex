@@ -529,7 +529,8 @@ defmodule OatFirstWeb.CoreComponents do
 
   def locale_selector(assigns) do
     ~H"""
-    <ot-dropdown class="locale-selector">
+    <.locale_selector_colocated_hook />
+    <ot-dropdown id="locale-selector" class="locale-selector" phx-hook=".LocaleSelector">
       <button popovertarget="locale-menu" class="outline small">
         {@locale && Gettext.get_locale(OatFirstWeb.Gettext)}
       </button>
@@ -547,6 +548,52 @@ defmodule OatFirstWeb.CoreComponents do
         </button>
       </menu>
     </ot-dropdown>
+    """
+  end
+
+  defp locale_selector_colocated_hook(assigns) do
+    ~H"""
+    <script :type={Phoenix.LiveView.ColocatedHook} name=".LocaleSelector">
+      export default {
+        mounted() {
+          const popover = this.el.querySelector('[popover]')
+          const trigger = this.el.querySelector('[popovertarget]')
+          if (!popover || !trigger) return
+
+          popover.removeEventListener('toggle', this.el)
+
+          const position = () => {
+            const trect = trigger.getBoundingClientRect()
+            const prect = popover.getBoundingClientRect()
+
+            let top =
+              trect.bottom + prect.height > window.innerHeight
+                ? Math.max(0, trect.top - prect.height)
+                : trect.bottom
+            let left =
+              trect.left + prect.width > window.innerWidth
+                ? Math.max(0, trect.right - prect.width)
+                : trect.left
+
+            popover.style.top = top + 'px'
+            popover.style.left = left + 'px'
+            popover.style.opacity = '1'
+          }
+
+          popover.addEventListener('toggle', (e) => {
+            if (e.newState === 'open') {
+              requestAnimationFrame(position)
+              window.addEventListener('scroll', position, {capture: true})
+              window.addEventListener('resize', position)
+            } else {
+              popover.style.opacity = ''
+              window.removeEventListener('scroll', position, {capture: true})
+              window.removeEventListener('resize', position)
+            }
+          })
+        }
+      }
+    </script>
     """
   end
 
