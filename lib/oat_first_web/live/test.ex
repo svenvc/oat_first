@@ -17,6 +17,9 @@ defmodule OatFirstWeb.Live.Test do
       <button phx-click="test-error" class="outline small">
         {dgettext("app", "Error")}
       </button>
+      <button phx-click="test-ping" class="outline small">
+        {dgettext("app", "Ping")}
+      </button>
     </div>
 
     <div class="flex justify-end mt-6">
@@ -67,6 +70,15 @@ defmodule OatFirstWeb.Live.Test do
 
     socket
     |> put_flash(:error, "#{msg} @ #{now}")
+    |> then(&{:noreply, &1})
+  end
+
+  @impl true
+  def handle_event("test-ping", _params, socket) do
+    socket
+    |> clear_flash()
+    |> put_flash(:info, "pong")
+    |> put_flash(:time, Time.utc_now() |> to_string())
     |> then(&{:noreply, &1})
   end
 
