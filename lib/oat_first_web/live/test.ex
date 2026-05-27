@@ -1,12 +1,14 @@
 defmodule OatFirstWeb.Live.Test do
   use OatFirstWeb, :live_view
 
+  import OatFirstWeb.Layouts
+
   require Logger
 
   @impl true
   def render(assigns) do
     ~H"""
-    <Layouts.flash_group flash={@flash} />
+    <.flash_group flash={@flash} />
 
     <h1>{@page_title}</h1>
 
