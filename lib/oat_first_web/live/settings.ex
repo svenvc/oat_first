@@ -101,24 +101,11 @@ defmodule OatFirstWeb.Live.Settings do
       <div class="row mt-6">
         <div class="col-6 offset-3">
           <h1>Values</h1>
-          <div class="table">
-            <table>
-              <thead>
-                <tr>
-                  <th>key</th>
-                  <th>type</th>
-                  <th>value</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr :for={%{key: key, type: type} <- @settings_meta}>
-                  <td>{key}</td>
-                  <td>{type}</td>
-                  <td>{@settings[key]}</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+          <.table id="settings-values" rows={@settings_meta}>
+            <:col :let={item} label="key">{item.key}</:col>
+            <:col :let={item} label="type">{item.type}</:col>
+            <:col :let={item} label="value">{@settings[item.key]}</:col>
+          </.table>
 
           <div class="align-right mt-6">
             <.oat_theme_toggle theme_changed_event="theme-changed" />
