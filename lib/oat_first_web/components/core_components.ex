@@ -93,8 +93,8 @@ defmodule OatFirstWeb.CoreComponents do
       <.button navigate={~p"/"}>Home</.button>
   """
   attr :rest, :global, include: ~w(href navigate patch method download name value disabled)
-  attr :class, :string
-  attr :variant, :string, values: ~w(primary secondary danger)
+  attr :class, :string, default: nil
+  attr :variant, :string, values: [nil, "primary", "secondary", "danger"], default: nil
   slot :inner_block, required: true
 
   def button(%{rest: rest} = assigns) do
