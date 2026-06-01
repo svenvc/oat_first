@@ -5,7 +5,27 @@ This is a web application written using the Phoenix web framework.
 - Use `mix precommit` alias when you are done with all changes and fix any pending issues
 - Use the already included and available `:req` (`Req`) library for HTTP requests, **avoid** `:httpoison`, `:tesla`, and `:httpc`. Req is included by default and is the preferred HTTP client for Phoenix apps
 
-### Phoenix v1.8 guidelines
+## Oat CSS framework
+
+This project uses [Oat](https://oat.ink), an ultra-lightweight CSS UI framework with zero dependencies. **Do not use Tailwind CSS or daisyUI classes** — the generator boilerplate has been refactored to Oat equivalents.
+
+Key patterns:
+- **Buttons**: use `<button>` natively (no class needed). Variants via `data-variant="primary|secondary|danger"`. Style modifiers: `outline`, `ghost`, `small`, `large`. For `<a>` links styled as buttons, use `class="button"`.
+- **Forms**: wrap inputs in `<label data-field>` or `<div data-field>`. Error state: `data-field="error"` on the container, error message with `class="error" role="status"`.
+- **Layout**: `.container`, `.row`, `.col-{1-12}`, `.offset-{1-6}`, `.hstack`, `.vstack`, `.flex`, `.flex-col`, `.items-center`, `.justify-between`, etc.
+- **Spacing**: `.mt-{2,4,6}`, `.mb-{2,4,6}`, `.gap-{1,2,4}`, `.p-4`
+- **Typography**: `.text-light`, `.text-lighter`, `.align-{left,center,right}`, `.bold`, `.nomargin`
+- **Icons**: use **inline SVGs** directly. There is no icon component — the generator's `<.icon>` / heroicons setup has been removed.
+
+### Custom CSS
+
+Add project-specific utility classes to `priv/static/assets/css/app.css` (the source is **not** built by esbuild — edit it directly). Note that `/priv/static/assets/` is gitignored, so use `git add -f` when committing changes there.
+
+### Component gallery
+
+Use `/core-components-gallery` to visually evaluate component changes after refactoring `lib/oat_first_web/components/core_components.ex`.
+
+## Phoenix v1.8 guidelines
 
 - **Always** begin your LiveView templates with `<Layouts.app flash={@flash} ...>` which wraps all inner content
 - The `MyAppWeb.Layouts` module is aliased in the `my_app_web.ex` file, so you can use it without needing to alias it again
@@ -13,10 +33,8 @@ This is a web application written using the Phoenix web framework.
   - You failed to follow the Authenticated Routes guidelines, or you failed to pass `current_scope` to `<Layouts.app>`
   - **Always** fix the `current_scope` error by moving your routes to the proper `live_session` and ensure you pass `current_scope` as needed
 - Phoenix v1.8 moved the `<.flash_group>` component to the `Layouts` module. You are **forbidden** from calling `<.flash_group>` outside of the `layouts.ex` module
-- Out of the box, `core_components.ex` imports an `<.icon name="hero-x-mark" class="w-5 h-5"/>` component for for hero icons. **Always** use the `<.icon>` component for icons, **never** use `Heroicons` modules or similar
-- **Always** use the imported `<.input>` component for form inputs from `core_components.ex` when available. `<.input>` is imported and using it will will save steps and prevent errors
-- If you override the default input classes (`<.input class="myclass px-2 py-1 rounded-lg">)`) class with your own values, no default classes are inherited, so your
-custom classes must fully style the input
+- **Always** use the imported `<.input>` component for form inputs from `core_components.ex` when available. `<.input>` is imported and using it will save steps and prevent errors
+- Use **inline SVGs** for icons — the generator's `<.icon>`/heroicons setup has been removed, and Oat has no icon system
 
 
 <!-- usage-rules-start -->
