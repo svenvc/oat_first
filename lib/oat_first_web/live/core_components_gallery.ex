@@ -14,6 +14,10 @@ defmodule OatFirstWeb.Live.CoreComponentsGallery do
 
     <h1>Core Components Gallery</h1>
 
+    <p>
+      Using <a href="https://oat.ink">Oat</a>, an ultra-lightweight HTML + CSS, semantic UI component library with zero dependencies.
+    </p>
+
     <h2>Button</h2>
     <div class="hstack">
       <.button>Default</.button>
