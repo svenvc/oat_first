@@ -4,26 +4,18 @@ defmodule OatFirstWeb.Live.Countries do
   @impl true
   def render(assigns) do
     ~H"""
-    <Layouts.flash_group flash={@flash} />
-
     <h1>Countries</h1>
 
-    <div class="table">
-      <table>
-        <thead>
-          <tr>
-            <th :for={col <- @columns}>{col}</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr :for={{_id, row} <- @streams.countries}>
-            <td :for={col <- @columns}>
-              <a href={show_on_map(row)} class="undecorated">{row[col]}</a>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+    <.table
+      id="countries"
+      rows={@streams.countries}
+      row_item={fn {_id, row} -> row end}
+      row_click={fn {_id, row} -> JS.navigate(show_on_map(row)) end}
+    >
+      <:col :let={row} :for={col <- @columns} label={col}>
+        {row[col]}
+      </:col>
+    </.table>
 
     <div class="align-right mt-6">
       <.oat_theme_toggle />
