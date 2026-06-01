@@ -368,14 +368,12 @@ defmodule OatFirstWeb.CoreComponents do
 
   def list(assigns) do
     ~H"""
-    <ul class="list">
-      <li :for={item <- @item} class="list-row">
-        <div class="list-col-grow">
-          <div class="font-bold">{item.title}</div>
-          <div>{render_slot(item)}</div>
-        </div>
-      </li>
-    </ul>
+    <dl>
+      <div :for={item <- @item}>
+        <dt class="bold">{item.title}</dt>
+        <dd>{render_slot(item)}</dd>
+      </div>
+    </dl>
     """
   end
 
