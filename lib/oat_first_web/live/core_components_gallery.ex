@@ -130,13 +130,58 @@ defmodule OatFirstWeb.Live.CoreComponentsGallery do
     </.list>
 
     <h2>Icon</h2>
+    <p class="text-light">Oat does not include an icon library — use inline SVGs directly.</p>
     <div class="hstack">
-      <.icon name="hero-x-mark" />
-      <.icon name="hero-check" />
-      <.icon name="hero-arrow-path" class="size-6" />
-      <.icon name="hero-exclamation-circle" class="size-6" />
-      <.icon name="hero-user" class="size-8" />
-      <.icon name="hero-cog-6-tooth" class="size-8" />
+      <svg
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+      >
+        <circle cx="12" cy="12" r="5" /><line x1="12" y1="1" x2="12" y2="3" /><line
+          x1="12"
+          y1="21"
+          x2="12"
+          y2="23"
+        />
+      </svg>
+      <svg
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+      >
+        <polyline points="20 6 9 17 4 12" />
+      </svg>
+      <svg
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+      >
+        <path d="M21 12a9 9 0 1 1-6.219-8.56" />
+      </svg>
+      <svg
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+      >
+        <circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line
+          x1="12"
+          y1="16"
+          x2="12.01"
+          y2="16"
+        />
+      </svg>
     </div>
 
     <h2>Input with error</h2>
