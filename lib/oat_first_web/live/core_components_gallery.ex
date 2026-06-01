@@ -106,8 +106,10 @@ defmodule OatFirstWeb.Live.CoreComponentsGallery do
     </.header>
     <.header>
       Header with actions
+      <:subtitle>Actions render to the right</:subtitle>
       <:actions>
-        <.button class="small">Action</.button>
+        <.button class="small outline">Cancel</.button>
+        <.button class="small">Save</.button>
       </:actions>
     </.header>
 

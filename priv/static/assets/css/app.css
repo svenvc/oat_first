@@ -27,6 +27,10 @@ html:not([data-theme="dark"]) .icon-light {
     font-weight: bold;
 }
 
+.nomargin {
+    margin: 0;
+}
+
 .text-smaller {
     font-size: 0.8em;
 }
