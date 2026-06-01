@@ -321,7 +321,7 @@ defmodule OatFirstWeb.CoreComponents do
       end
 
     ~H"""
-    <table class="table table-zebra">
+    <table class="table">
       <thead>
         <tr>
           <th :for={col <- @col}>{col[:label]}</th>
@@ -335,11 +335,11 @@ defmodule OatFirstWeb.CoreComponents do
           <td
             :for={col <- @col}
             phx-click={@row_click && @row_click.(row)}
-            class={@row_click && "hover:cursor-pointer"}
+            class={@row_click && "cursor-pointer"}
           >
             {render_slot(col, @row_item.(row))}
           </td>
-          <td :if={@action != []} class="w-0 font-semibold">
+          <td :if={@action != []}>
             <div class="flex gap-4">
               <%= for action <- @action do %>
                 {render_slot(action, @row_item.(row))}
