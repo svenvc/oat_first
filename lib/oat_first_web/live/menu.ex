@@ -14,8 +14,6 @@ defmodule OatFirstWeb.Live.Menu do
   @impl true
   def render(assigns) do
     ~H"""
-    <Layouts.flash_group flash={@flash} />
-
     <h1>Menu</h1>
 
     <div id="menu-links" class="hstack mt-4">

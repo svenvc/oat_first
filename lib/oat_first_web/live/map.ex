@@ -4,8 +4,6 @@ defmodule OatFirstWeb.Live.Map do
   @impl true
   def render(assigns) do
     ~H"""
-    <Layouts.flash_group flash={@flash} />
-
     <.map_colocated_hook />
     <div
       id="map"

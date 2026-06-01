@@ -10,8 +10,6 @@ defmodule OatFirstWeb.Live.CoreComponentsGallery do
   @impl true
   def render(assigns) do
     ~H"""
-    <Layouts.flash_group flash={@flash} />
-
     <h1>Core Components Gallery</h1>
 
     <p>

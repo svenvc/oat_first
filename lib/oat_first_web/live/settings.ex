@@ -68,8 +68,6 @@ defmodule OatFirstWeb.Live.Settings do
   @impl true
   def render(assigns) do
     ~H"""
-    <Layouts.flash_group flash={@flash} />
-
     <div class="container mt-6">
       <div class="row">
         <div class="col-6 offset-3">
