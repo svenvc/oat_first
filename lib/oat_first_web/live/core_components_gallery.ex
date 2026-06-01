@@ -140,12 +140,8 @@ defmodule OatFirstWeb.Live.CoreComponentsGallery do
         stroke="currentColor"
         stroke-width="2"
       >
-        <circle cx="12" cy="12" r="5" /><line x1="12" y1="1" x2="12" y2="3" /><line
-          x1="12"
-          y1="21"
-          x2="12"
-          y2="23"
-        />
+        <circle cx="12" cy="12" r="10" />
+        <polygon points="10 8 16 12 10 16 10 8" />
       </svg>
       <svg
         width="20"
