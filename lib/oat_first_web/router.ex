@@ -32,6 +32,7 @@ defmodule OatFirstWeb.Router do
     live "/system-info", Live.SystemInfo, :new
     live "/settings", Live.Settings, :new
     live "/test", Live.Test, :new
+    live "/core-components-gallery", Live.CoreComponentsGallery, :new
   end
 
   scope "/leaflet", OatFirstWeb do

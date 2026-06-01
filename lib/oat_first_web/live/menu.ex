@@ -7,6 +7,7 @@ defmodule OatFirstWeb.Live.Menu do
     %{title: "System Info", path: "/system-info"},
     %{title: "Settings", path: "/settings"},
     %{title: "Test", path: "/test"},
+    %{title: "Core Components", path: "/core-components-gallery"},
     %{title: "Map", path: "/leaflet/map"}
   ]
 
