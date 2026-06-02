@@ -11,32 +11,42 @@ msgstr ""
 "Language: nl\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: lib/oat_first_web/live/test.ex:69
+#: lib/oat_first_web/live/test.ex:71
 #, elixir-autogen, elixir-format
 msgid "An error occurred"
 msgstr "Er is een fout opgetreden"
 
-#: lib/oat_first_web/live/test.ex:18
+#: lib/oat_first_web/live/test.ex:20
 #, elixir-autogen, elixir-format
 msgid "Error"
 msgstr "Fout"
 
-#: lib/oat_first_web/live/test.ex:15
+#: lib/oat_first_web/live/test.ex:17
 #, elixir-autogen, elixir-format
 msgid "Go"
 msgstr "Ga"
 
-#: lib/oat_first_web/live/test.ex:48
+#: lib/oat_first_web/live/test.ex:50
 #, elixir-autogen, elixir-format
 msgid "Test"
 msgstr "Test (nl)"
 
-#: lib/oat_first_web/live/test.ex:59
+#: lib/oat_first_web/live/test.ex:61
 #, elixir-autogen, elixir-format
 msgid "You clicked the Go button"
 msgstr "Je hebt de Ga knop geklikt"
 
-#: lib/oat_first_web/live/test.ex:21
+#: lib/oat_first_web/live/test.ex:23
 #, elixir-autogen, elixir-format
 msgid "Ping"
 msgstr ""
+
+#: lib/oat_first_web/live/settings.ex:306
+#, elixir-autogen, elixir-format
+msgid "Choose the UI language"
+msgstr "Kies de taal van de UI"
+
+#: lib/oat_first_web/live/settings.ex:305
+#, elixir-autogen, elixir-format
+msgid "UI Language"
+msgstr "Taal van UI"

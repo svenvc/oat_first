@@ -111,12 +111,12 @@ msgstr ""
 msgid "must be equal to %{number}"
 msgstr ""
 
-#: lib/oat_first_web/components/core_components.ex:62
+#: lib/oat_first_web/components/core_components.ex:55
 #, elixir-autogen, elixir-format
 msgid "Error"
 msgstr ""
 
-#: lib/oat_first_web/components/core_components.ex:61
+#: lib/oat_first_web/components/core_components.ex:54
 #, elixir-autogen, elixir-format
 msgid "Info"
 msgstr ""

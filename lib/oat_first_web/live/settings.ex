@@ -28,6 +28,14 @@ defmodule OatFirstWeb.Live.Settings do
         "Choose the UI theme, a selected static one, or follow the system configuration"
     },
     %{
+      key: "locale",
+      type: :enum,
+      enum: ~w(en fr de nl),
+      default: "en",
+      title: "UI Language",
+      description: "Choose the UI language"
+    },
+    %{
       key: "font-family",
       type: :enum,
       enum: ["system", "Helvetica Neu", "Monaco", "Lucida Grande", "Open Sans Code"],
@@ -276,11 +284,33 @@ defmodule OatFirstWeb.Live.Settings do
   end
 
   @impl true
-  def handle_info({:setting_changed, "theme", value}, socket) do
-    Logger.info("settings changed theme: #{value}")
+  def handle_info({:setting_changed, "theme", theme}, socket) do
+    Logger.info("settings changed theme: #{theme}")
 
     socket
-    |> push_event("set-theme", %{theme: value})
+    |> push_event("set-theme", %{theme: theme})
+    |> then(&{:noreply, &1})
+  end
+
+  @impl true
+  def handle_info({:setting_changed, "locale", locale}, socket) do
+    Logger.info("settings changed locale: #{locale}")
+    Gettext.put_locale(OatFirstWeb.Gettext, locale)
+
+    socket
+    |> assign(:locale, locale)
+    |> update(:settings_meta, fn meta_list ->
+      meta_list
+      |> Enum.map(fn meta ->
+        if meta.key == "locale" do
+          meta
+          |> Map.put(:title, dgettext("app", "UI Language"))
+          |> Map.put(:description, dgettext("app", "Choose the UI language"))
+        else
+          meta
+        end
+      end)
+    end)
     |> then(&{:noreply, &1})
   end
 

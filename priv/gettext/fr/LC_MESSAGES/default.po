@@ -11,7 +11,7 @@ msgstr ""
 "Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n>1);\n"
 
-#: lib/oat_first_web/components/core_components.ex:353
+#: lib/oat_first_web/components/core_components.ex:329
 #, elixir-autogen, elixir-format
 msgid "Actions"
 msgstr ""
