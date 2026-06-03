@@ -41,12 +41,17 @@ msgstr "Je hebt de Ga knop geklikt"
 msgid "Ping"
 msgstr ""
 
-#: lib/oat_first_web/live/settings.ex:306
+#: lib/oat_first_web/live/settings.ex:308
 #, elixir-autogen, elixir-format
 msgid "Choose the UI language"
 msgstr "Kies de taal van de UI"
 
-#: lib/oat_first_web/live/settings.ex:305
+#: lib/oat_first_web/live/settings.ex:307
 #, elixir-autogen, elixir-format
 msgid "UI Language"
 msgstr "Taal van UI"
+
+#: lib/oat_first_web/live/core_components_gallery.ex:208
+#, elixir-autogen, elixir-format
+msgid "English"
+msgstr "Nederlands"

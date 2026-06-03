@@ -41,12 +41,17 @@ msgstr "Vous avez cliqué sur le bouton Aller"
 msgid "Ping"
 msgstr ""
 
-#: lib/oat_first_web/live/settings.ex:306
+#: lib/oat_first_web/live/settings.ex:308
 #, elixir-autogen, elixir-format
 msgid "Choose the UI language"
 msgstr "Choisissez la langue de l'IU"
 
-#: lib/oat_first_web/live/settings.ex:305
+#: lib/oat_first_web/live/settings.ex:307
 #, elixir-autogen, elixir-format
 msgid "UI Language"
 msgstr "Langue d'IU"
+
+#: lib/oat_first_web/live/core_components_gallery.ex:208
+#, elixir-autogen, elixir-format
+msgid "English"
+msgstr "Français"

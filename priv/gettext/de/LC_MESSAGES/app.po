@@ -41,12 +41,17 @@ msgstr "Sie haben die Schaltfläche Gehe angeklickt"
 msgid "Ping"
 msgstr ""
 
-#: lib/oat_first_web/live/settings.ex:306
+#: lib/oat_first_web/live/settings.ex:308
 #, elixir-autogen, elixir-format
 msgid "Choose the UI language"
 msgstr "Wählen Sie die Sprache der UI"
 
-#: lib/oat_first_web/live/settings.ex:305
+#: lib/oat_first_web/live/settings.ex:307
 #, elixir-autogen, elixir-format
 msgid "UI Language"
 msgstr "Sprache der UI"
+
+#: lib/oat_first_web/live/core_components_gallery.ex:208
+#, elixir-autogen, elixir-format
+msgid "English"
+msgstr "Deutsch"

@@ -16,7 +16,14 @@ defmodule OatFirstWeb.Live.CoreComponentsGallery do
       Using <a href="https://oat.ink">Oat</a>, an ultra-lightweight HTML + CSS, semantic UI component library with zero dependencies.
     </p>
 
-    <h2>Button</h2>
+    <h2># Theme Toggle .oat_theme_toggle</h2>
+    <.oat_theme_toggle />
+
+    <h2>Locale Selector .locale_selector</h2>
+    <p>Current language is {@language}</p>
+    <.locale_selector locale={@locale} />
+
+    <h2># Button .button</h2>
     <div class="hstack">
       <.button>Default</.button>
       <.button variant="primary">Primary</.button>
@@ -28,14 +35,14 @@ defmodule OatFirstWeb.Live.CoreComponentsGallery do
       <.button navigate={~p"/"}>As link</.button>
     </div>
 
-    <h2>Input (text)</h2>
+    <h2># Input (text) .input</h2>
     <div class="vstack">
       <.input type="text" name="demo-text" value="Default value" />
       <.input type="text" name="demo-text-pl" value="" placeholder="Placeholder text" />
       <.input type="text" name="demo-text-err" value="Bad" errors={["Must be at least 3 characters"]} />
     </div>
 
-    <h2>Input (email)</h2>
+    <h2># Input (email) .input</h2>
     <div class="vstack">
       <.input type="email" name="demo-email" value="user@example.com" label="Email" />
       <.input
@@ -47,13 +54,13 @@ defmodule OatFirstWeb.Live.CoreComponentsGallery do
       />
     </div>
 
-    <h2>Input (checkbox)</h2>
+    <h2># Input (checkbox) .input</h2>
     <div class="vstack">
       <.input type="checkbox" name="demo-cb-1" label="Subscribe to newsletter" />
       <.input type="checkbox" name="demo-cb-2" label="Remember me" checked />
     </div>
 
-    <h2>Input (select)</h2>
+    <h2># Input (select) .input</h2>
     <div class="vstack">
       <.input
         type="select"
@@ -74,7 +81,7 @@ defmodule OatFirstWeb.Live.CoreComponentsGallery do
       />
     </div>
 
-    <h2>Input (textarea)</h2>
+    <h2># Input (textarea) .input</h2>
     <div class="vstack">
       <.input type="textarea" name="demo-ta" value="Some content" label="Description" />
       <.input
@@ -86,7 +93,16 @@ defmodule OatFirstWeb.Live.CoreComponentsGallery do
       />
     </div>
 
-    <h2>Flash</h2>
+    <h2># Input with multiple errors .input</h2>
+    <.input
+      type="text"
+      name="demo-err"
+      value="wrong"
+      errors={["Invalid value", "Must be unique"]}
+      label="Error demo"
+    />
+
+    <h2># Flash .flash</h2>
     <div class="hstack">
       <button phx-click="flash-info" class="outline small">Info Flash</button>
       <button phx-click="flash-error" class="outline small">Error Flash</button>
@@ -96,7 +112,7 @@ defmodule OatFirstWeb.Live.CoreComponentsGallery do
       <.flash kind={:error} flash={@flash} />
     </div>
 
-    <h2>Header</h2>
+    <h2># Header .header</h2>
     <.header>Simple Header</.header>
     <.header>
       Header with subtitle
@@ -111,7 +127,7 @@ defmodule OatFirstWeb.Live.CoreComponentsGallery do
       </:actions>
     </.header>
 
-    <h2>Table</h2>
+    <h2># Table .table</h2>
     <.table id="demo-table" rows={@sample_rows}>
       <:col :let={row} label="Name">{row.name}</:col>
       <:col :let={row} label="Email">{row.email}</:col>
@@ -121,7 +137,7 @@ defmodule OatFirstWeb.Live.CoreComponentsGallery do
       </:action>
     </.table>
 
-    <h2>List</h2>
+    <h2># List .list</h2>
     <.list>
       <:item title="Name">Alice Johnson</:item>
       <:item title="Email">alice@example.com</:item>
@@ -129,7 +145,7 @@ defmodule OatFirstWeb.Live.CoreComponentsGallery do
       <:item title="Status">Active</:item>
     </.list>
 
-    <h2>Icon</h2>
+    <h2># Icon</h2>
     <p class="text-light">Oat does not include an icon library — use inline SVGs directly.</p>
     <div class="hstack">
       <svg
@@ -179,40 +195,44 @@ defmodule OatFirstWeb.Live.CoreComponentsGallery do
         />
       </svg>
     </div>
-
-    <h2>Input with error</h2>
-    <.input
-      type="text"
-      name="demo-err"
-      value="wrong"
-      errors={["Invalid value", "Must be unique"]}
-      label="Error demo"
-    />
-
-    <h2>Theme Toggle</h2>
-    <.oat_theme_toggle />
-
-    <h2>Locale Selector</h2>
-    <.locale_selector locale={@locale} />
     """
   end
 
   @impl true
   def mount(_params, _session, socket) do
+    locale = Gettext.get_locale(OatFirstWeb.Gettext)
+
     socket
     |> assign(:page_title, "Core Components Gallery")
-    |> assign(:locale, Gettext.get_locale(OatFirstWeb.Gettext))
+    |> assign(:locale, locale)
+    |> assign(:language, dgettext("app", "English"))
     |> assign(:sample_rows, @sample_rows)
     |> then(&{:ok, &1})
   end
 
   @impl true
   def handle_event("flash-info", _params, socket) do
-    {:noreply, put_flash(socket, :info, "This is an info flash message")}
+    socket
+    |> put_flash(:time, Time.utc_now() |> to_string())
+    |> put_flash(:info, "This is an info flash message")
+    |> then(&{:noreply, &1})
   end
 
   @impl true
   def handle_event("flash-error", _params, socket) do
-    {:noreply, put_flash(socket, :error, "This is an error flash message")}
+    socket
+    |> put_flash(:time, Time.utc_now() |> to_string())
+    |> put_flash(:error, "This is an error flash message")
+    |> then(&{:noreply, &1})
+  end
+
+  @impl true
+  def handle_event("locale-changed", %{"locale" => locale}, socket) do
+    Gettext.put_locale(OatFirstWeb.Gettext, locale)
+
+    socket
+    |> assign(:locale, locale)
+    |> assign(:language, dgettext("app", "English"))
+    |> then(&{:noreply, &1})
   end
 end
