@@ -21,6 +21,7 @@
       crossorigin=""
     >
     </script>
+    {Application.get_env(:live_debugger, :live_debugger_tags)}
   </head>
   <body>
     {@inner_content}

@@ -21,6 +21,7 @@
     <link phx-track-static rel="stylesheet" href={~p"/assets/css/oat.min.css"} />
     <script defer phx-track-static type="text/javascript" src={~p"/assets/js/app.js"} />
     <script defer phx-track-static type="text/javascript" src={~p"/assets/js/oat.min.js"} />
+    {Application.get_env(:live_debugger, :live_debugger_tags)}
   </head>
   <body>
     {@inner_content}
